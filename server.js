@@ -1,5 +1,7 @@
-if (process.env.NODE_ENV !== 'production') {
+try {
     require('dotenv').config();
+} catch (e) {
+    // Skip dotenv in production if not installed
 }
 const express = require('express');
 const mongoose = require('mongoose');
@@ -524,4 +526,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => console.log(`MatchFlow live at port ${PORT}`));
+
 

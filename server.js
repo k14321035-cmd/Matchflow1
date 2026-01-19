@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const http = require('http');
+const path = require('path');
 const { Server } = require('socket.io');
 
 const app = express();
@@ -82,7 +83,8 @@ async function initializeAdmin() {
 
 // 3. MIDDLEWARE
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.SESSION_SECRET || 'matchflow-secret',
@@ -526,5 +528,3 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => console.log(`MatchFlow live at port ${PORT}`));
-
-

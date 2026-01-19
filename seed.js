@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -72,3 +75,4 @@ async function seedDB() {
 }
 
 seedDB();
+

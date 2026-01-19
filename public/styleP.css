@@ -1,0 +1,263 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #fff5f7 0%, #ffeef3 50%, #fad9e6 100%);
+    color: #3d1c2e;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(255, 255, 255, 0.92);
+   
+    padding: 16px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
+    border-bottom: 1px solid rgba(255, 182, 193, 0.3);
+}
+
+.brand {
+    font-size: 2rem;
+    font-weight: 800;
+  
+    color: #ff0095;
+   
+
+}
+
+.nav-item {
+    color: #ae93a4;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+}
+
+.nav-item:hover {
+    background: rgba(199, 21, 133, 0.12);
+    color: #db7093;
+}
+
+/* Main Container & Setup Box */
+.container {
+    max-width: 620px;
+    margin: 40px auto;
+}
+
+.setup-box {
+    background: rgba(255, 255, 255, 0.94);
+    
+    border-radius: 28px;
+    padding: 48px 40px;
+    box-shadow: 0 20px 60px rgba(255, 105, 180, 0.22);
+    border: 1px solid rgba(255, 182, 193, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.setup-box h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.8rem;
+  
+    color: #c823b8;
+
+}
+
+.setup-box > p {
+    text-align: center;
+    color: #c823b8;
+    font-size: 1.1rem;
+    margin-bottom: 2.2rem;
+}
+
+/* Form Elements */
+label {
+    display: block;
+    font-weight: 600;
+    color: #6b3f5a;
+    margin: 1.8rem 0 0.6rem;
+    font-size: 1.1rem;
+}
+
+textarea,
+input[type="text"] {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #ffe4e9;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    background: rgba(255, 245, 247, 0.75);
+    color: #4a2c3b;
+    transition: all 0.25s ease;
+}
+
+textarea:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ff69b4;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.22);
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+/* === COOL INTEREST INSPIRATION SECTION === */
+.interest-inspo {
+    margin: 1.5rem 0 2rem;
+    padding: 1.8rem;
+    background: linear-gradient(135deg, rgba(255,245,247,0.8), rgba(255,230,240,0.65));
+    border-radius: 20px;
+    border: 2px dashed #ff99ac;
+    position: relative;
+}
+
+.inspo-header {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #c71585;
+    margin-bottom: 1.4rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sparkle {
+    font-size: 1.4rem;
+    animation: twinkle 2.8s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.15); }
+}
+
+.interest-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.tag {
+    background: rgba(255, 182, 193, 0.5);
+    color: #6b3f5a;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 105, 180, 0.4);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag:hover {
+    transform: translateY(-3px) scale(1.08);
+    background: linear-gradient(90deg, #ff69b4, #ff1493);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.35);
+}
+
+/* Hint text */
+small {
+    color: #8b5f7a;
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+    display: block;
+    text-align: center;
+}
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 16px;
+    background: linear-gradient(90deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.18rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(255, 105, 180, 0.5);
+    background: linear-gradient(90deg, #ff1493, #ff69b4);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .setup-box {
+        padding: 40px 28px;
+    }
+    
+    .setup-box h1 {
+        font-size: 2.2rem;
+    }
+}
+.btn-location {
+    background: linear-gradient(135deg, #cc0673ec, #7d0dad);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+    font-family: inherit;
+    margin: 10px auto;
+    display: block;
+}
+
+.btn-location:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(235, 9, 171, 0.892);
+    filter: brightness(1.1);
+}
+
+.btn-location:active {
+    transform: translateY(0);
+}
+
+/* Optional: Add a small pin icon using CSS before the text */
+.btn-location::before {
+    content: '📍';
+    font-size: 1.1rem;
+}
+
+/* Loading state if you want to disable it while fetching */
+.btn-location:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - MatchFlow</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="brand">MatchFlow Admin</div>
+            <a href="/">Back to Home</a>
+        </nav>
+
+        <h2>Add New User</h2>
+        <form action="/admin/add-user" method="POST" class="admin-form">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <select name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <select name="role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button type="submit" class="btn-primary">Create User</button>
+        </form>
+
+        <hr>
+
+        <h2>User Management</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(u => { %>
+                    <tr>
+                        <td><%= u.name %></td>
+                        <td><%= u.email %></td>
+                        <td><%= u.gender %></td>
+                        <td><strong><%= u.role %></strong></td>
+                        <td>
+                            <a href="/admin/edit/<%= u._id %>" class="btn-edit">Edit</a> | 
+                            <form action="/admin/delete/<%= u._id %>" method="POST" style="display:inline;">
+                                <button type="submit" onclick="return confirm('Delete user?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+/* style.css - Romantic Dashboard (Fixed & Cleaned) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Ensure the app content stays below the status bar */
+body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.navbar {
+    padding-top: max(10px, env(safe-area-inset-top));
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #fff5f7 0%, #ffeef3 50%, #fad9e6 100%);
+    color: #3d1c2e;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(255, 255, 255, 0.92);
+ 
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(255, 34, 145, 0.15);
+    border-bottom: 1px solid rgba(255, 182, 193, 0.35);
+}
+
+.brand {
+    font-size: 2.5rem;
+    font-weight: 800;
+  
+    
+
+    letter-spacing: -1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-item {
+    color: #f559bf;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+}
+
+.nav-item:hover {
+    background: rgba(151, 26, 105, 0.12);
+    color: #db7093;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 24px;
+}
+
+/* Setup Box (when no interests) */
+.setup-box {
+    background: rgba(255, 255, 255, 0.94);
+   
+    border-radius: 28px;
+    padding: 60px 40px;
+    box-shadow: 0 20px 60px rgb(255, 7, 131);
+    border: 1px solid rgba(255, 182, 193, 0.4);
+    text-align: center;
+    max-width: 580px;
+    margin: 100px auto;
+}
+
+.setup-box h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #ff69b4, #ff1493, #db7093);
+
+}
+
+.setup-box p {
+    color: #7a5b6d;
+    font-size: 1.15rem;
+    margin: 0 0 2rem;
+}
+
+.btn-primary {
+    display: inline-block;
+    background: linear-gradient(90deg, #ff69b4, #ff1493);
+    color: white;
+    padding: 16px 38px;
+    border-radius: 14px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(255, 105, 180, 0.5);
+    background: linear-gradient(90deg, #ff1493, #ff69b4);
+}
+
+/* Matches Section */
+h1 {
+    text-align: center;
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    background:  #fa007d;
+    
+}
+
+/* Matches Grid */
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
+}
+
+.match-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 26px;
+    box-shadow: 0 12px 40px rgba(255, 105, 180, 0.18);
+    border: 1px solid rgba(255, 182, 193, 0.35);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.match-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 24px 60px rgba(255, 105, 180, 0.28);
+}
+
+.match-card h3 {
+    font-size: 1.65rem;
+    color: #4a2c3b;
+    margin-bottom: 0.6rem;
+}
+
+.score {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #ff69b4, #ff1493);
+
+    -webkit-text-fill-color: transparent;
+}
+
+.match-card p {
+    color: #6b3f5a;
+    line-height: 1.55;
+    margin-bottom: 1.4rem;
+    font-size: 1rem;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tag {
+    background: rgba(255, 182, 193, 0.4);
+    color: #6b3f5a;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 16px 5%;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .nav-links {
+        gap: 16px;
+    }
+    
+    .matches-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .setup-box {
+        padding: 50px 30px;
+        margin: 60px 20px;
+    }
+}
+
+.match-card { position: relative; } /* Needed for absolute button positioning */
+.remove-btn {
+    background: #eee;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    color: #888;
+    font-size: 12px;
+    transition: 0.2s;
+}
+.remove-btn:hover {
+    background: #ff4757;
+    color: white;
+}
+.progress-container {
+    width: 80%;
+    max-width: 300px;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff69b4, #ff4757);
+    transition: width 1s linear;
+    border-radius: 10px;
+}
+
+.no-matches-yet {
+    text-align: center;
+    padding: 50px 20px;
+}

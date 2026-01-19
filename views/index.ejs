@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatchFlow - Welcome Back! 💗</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Modern Match Reason Styling */
+        .match-reason-badge {
+            background: rgba(255, 105, 180, 0.1);
+            color: #db7093;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin: 12px 0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            line-height: 1.4;
+        }
+        .sparkle-icon { font-size: 1rem; }
+        .score-pill {
+            background: #ff69b4;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .match-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .match-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="brand">MatchFlow</div>
+            <div class="nav-links">
+                <a href="/" class="nav-item">Home</a>
+                <a href="/messages" class="nav-item">Messages</a>
+                
+                <% if (me.role === 'admin') { %>
+                    <a href="/admin" class="nav-item" style="color: #ff4757; font-weight: bold;">Admin Panel</a>
+                <% } %>
+                <a href="/edit-profile" class="nav-item">✨ Profile</a>
+                <a href="/logout" class="nav-item">Logout</a>
+            </div>
+        </nav>
+
+        <% if (!me.rhythm) { %>
+            <div class="setup-box">
+                <div class="welcome-emoji">💕✨</div>
+                <h1>Ready for some magic, <%= me.name %>?</h1>
+                <p class="welcome-text">
+                    Complete your "Magnetism Profile" to unlock your top matches!<br>
+                    It only takes 2 minutes to find someone who balances you out.
+                </p>
+                <a href="/register1" class="btn-primary">
+                    Start My Vibe Check → 💫
+                </a>
+            </div>
+        <% } else { %>
+            <div class="header-section">
+                <h1>Matches for you, <%= me.name %>! 💖</h1>
+                <p class="subtitle">Based on your unique personality and lifestyle rhythm.</p>
+            </div>
+
+            <div class="matches-grid">
+                <% if (matches.length === 0) { %>
+                    <div class="no-matches-yet">
+                        <div class="emoji-big">🌟</div>
+                        <h3>No matches found nearby...</h3>
+                        <p>Try being more specific in your bio or adding more niche interests!</p>
+                       <p>Refresh and , Try checking back in a little bit!</p>
+                        <a href="/" class="btn-secondary">Refresh Now 🔄</a>
+
+                        <a href="/edit-profile" class="btn-secondary">Update My Vibe →</a>
+                        <div class="progress-container">
+                <div id="loading-bar" class="progress-fill"></div>
+            </div>
+            <p id="timer-text" style="font-size: 0.8rem; margin-top: 10px; color: #888;"></p>
+            
+            <script>
+                let remainingMs =600000 ;
+                const totalMs = 10 * 60 * 1000; // 10 minutes total
+                const bar = document.getElementById('loading-bar');
+                const text = document.getElementById('timer-text');
+
+                const updateTimer = () => {
+                    if (remainingMs <= 0) {
+                        location.reload(); // Refresh page when done
+                        return;
+                    }
+
+                    // Update Bar Width
+                    const percentage = ((totalMs - remainingMs) / totalMs) * 100;
+                    bar.style.width = percentage + "%";
+
+                    // Update Time Text
+                    const mins = Math.floor(remainingMs / 60000);
+                    const secs = Math.floor((remainingMs % 60000) / 1000);
+                    text.innerText = `Back in ${mins}m ${secs}s`;
+
+                    remainingMs -= 1000;
+                };
+
+                setInterval(updateTimer, 1000);
+                updateTimer();
+            </script>
+                    </div>
+                <% } else { %>
+                    <% matches.forEach(match => { %>
+                        <div class="match-card">
+                            <form action="/unmatch/<%= match._id %>" method="POST" style="position: absolute; right: 10px; top: 10px;">
+        <button type="submit" class="remove-btn" title="Remove Match">✕</button>
+    </form>
+                            <div class="score-pill"><%= match.score %>% Match</div>
+                            <h3 style="margin: 5px 0;"><%= match.name %></h3>
+
+                            <div class="match-reason-badge">
+                                <span class="sparkle-icon">💡</span>
+                                <span><%= match.matchReason %></span>
+                            </div>
+
+                            <p style="color: #666; font-size: 0.95rem; flex-grow: 1;">
+                                <%= match.bio.substring(0, 120) %><%= match.bio.length > 120 ? '...' : '' %>
+                            </p>
+
+                            <div class="tags" style="margin: 15px 0;">
+                                <% match.interests.slice(0, 3).forEach(i => { %>
+                                    <span class="tag">#<%= i %></span>
+                                <% }) %>
+                            </div>
+
+                            <a href="/chat/<%= match._id %>" class="btn-chat" style="text-align: center; text-decoration: none; display: block; background: #ff69b4; color: white; padding: 12px; border-radius: 12px; font-weight: bold;">
+                                Send a Message 👋
+                            </a>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const myId = "<%= me._id %>"; // Your User ID from EJS
+
+    // Join the private notification room
+    socket.emit('join-notifications', myId);
+
+    // Listen for new notifications
+    socket.on('new-notification', (data) => {
+        const badge = document.getElementById('msg-badge');
+        
+        if (badge) {
+            // Increment the existing number
+            let count = parseInt(badge.innerText) || 0;
+            badge.innerText = count + 1;
+            badge.style.display = 'block';
+        } else {
+            // Create a new badge if it didn't exist
+            // (Assuming you have a container for the badge)
+            location.reload(); // Simple way: refresh to show badge
+        }
+        
+        // Optional: Play a small notification sound
+        const audio = new Audio('/sounds/notification.mp3');
+        audio.play().catch(() => {}); 
+    });
+</script>
+</body>
+</html>

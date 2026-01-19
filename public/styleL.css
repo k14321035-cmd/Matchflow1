@@ -1,0 +1,189 @@
+/* style.css - Romantic Edition */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.auth-page {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, 
+        #fff0f5 0%, 
+        #f8e1e9 35%, 
+        #f5d5e5 70%, 
+        #fad0e4 100%);
+    color: #4a2c3b;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Soft floating hearts background */
+body.auth-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 15% 25%, rgba(255,182,193,0.18) 0%, transparent 40%),
+        radial-gradient(circle at 85% 70%, rgba(255,182,193,0.15) 0%, transparent 45%),
+        radial-gradient(circle at 30% 80%, rgba(230,130,170,0.12) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.88);
+   
+    border-radius: 28px;
+    padding: 48px 42px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 
+        0 20px 50px rgba(255, 105, 180, 0.18),
+        0 8px 30px rgba(255, 182, 193, 0.12);
+    border: 1px solid rgba(255, 182, 193, 0.35);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gentle glow at the top */
+.login-box::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: 50%;
+    width: 180%;
+    height: 120%;
+    transform: translateX(-50%);
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 182, 193, 0.22) 0%,
+        transparent 60%
+    );
+    pointer-events: none;
+}
+
+h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #c71585; /* deep pink */
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, #ff69b4, #db7093, #c71585);
+    
+}
+
+.subtitle {
+    color: #8b5f7a;
+    font-size: 1.08rem;
+    margin-bottom: 2.4rem;
+    font-weight: 400;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-bottom: 2rem;
+}
+
+label {
+    text-align: left;
+    color: #6b3f5a;
+    font-weight: 600;
+    font-size: 0.98rem;
+    margin-bottom: 0.4rem;
+}
+
+input {
+    padding: 16px 18px;
+    border: 2px solid #ffe4e9;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    background: rgba(255, 245, 247, 0.7);
+    transition: all 0.25s ease;
+    color: #4a2c3b;
+}
+
+input:focus {
+    outline: none;
+    border-color: #ff69b4;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.22);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.35);
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 35px rgba(255, 105, 180, 0.45);
+    background: linear-gradient(90deg, #ff1493, #ff69b4);
+}
+
+.auth-footer {
+    margin-top: 2.2rem;
+    font-size: 0.98rem;
+    color: #7a5b6d;
+}
+
+.auth-footer a {
+    color: #c71585;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+    color: #db7093;
+}
+
+/* Extra romantic touch - very subtle floating hearts */
+@keyframes float {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+    50%  { transform: translateY(-30px) rotate(5deg); opacity: 0.8; }
+    100% { transform: translateY(-60px) rotate(10deg); opacity: 0; }
+}
+
+.heart {
+    position: absolute;
+    font-size: 1.4rem;
+    color: rgba(255, 105, 180, 0.6);
+    pointer-events: none;
+  
+    animation: float 8s infinite ease-in-out;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 38px 28px;
+    }
+    
+    h1 {
+        font-size: 2.4rem;
+    }
+}

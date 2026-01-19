@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join MatchFlow</title>
+    <link rel="stylesheet" href="/stylere.css">
+    <style>
+        /* Chip Styling for Gender */
+        .options-flex { display: flex; gap: 10px; margin: 10px 0 20px; }
+        .chip { 
+            flex: 1;
+            border: 2px solid #eee; 
+            padding: 12px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            text-align: center;
+            background: white; 
+            transition: 0.3s; 
+            font-weight: 600;
+        }
+        .chip input { display: none; }
+        .chip:hover { border-color: #ff69b4; }
+        .chip.selected { 
+            background: #ff69b4; 
+            color: white; 
+            border-color: #ff69b4; 
+        }
+        label { font-weight: bold; display: block; margin-top: 15px; color: #444; }
+        input { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #eee; margin-top: 5px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Your Account</h1>
+        <p class="subtitle">Quickly join to see who is waiting for you.</p>
+
+        <form action="/register" method="POST">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Zita Rako" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" placeholder="email@example.com" required>
+
+            <label>I am a:</label>
+            <div class="options-flex">
+                <label class="chip">
+                    <input type="radio" name="gender" value="male" required> Male ♂️
+                </label>
+                <label class="chip">
+                    <input type="radio" name="gender" value="female"> Female ♀️
+                </label>
+            </div>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn-primary" style="margin-top: 20px;">Next: Start Vibe Check ✨</button>
+        </form>
+
+        <div class="form-footer">
+            <p>Already have an account? <a href="/login">Login here</a></p>
+        </div>
+   <div class="location-section">
+   
+    <p>We need your location to find people close to you.</p>
+    
+    <button type="button" id="reg-loc-btn" onclick="getRegLocation()" class="btn-location">
+    Location
+    </button>
+
+    <input type="hidden" name="lat" id="reg-lat">
+    <input type="hidden" name="lng" id="reg-lng">
+    
+    <p id="loc-status" style="font-size: 0.8rem; margin-top: 5px;"></p>
+</div>
+ </div>
+    <script>
+        // Logic to highlight the selected gender chip
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+    <script>
+function getRegLocation() {
+    const btn = document.getElementById('reg-loc-btn');
+    const status = document.getElementById('loc-status');
+
+    if (navigator.geolocation) {
+        btn.innerText = "Locating...";
+        navigator.geolocation.getCurrentPosition((position) => {
+            // Put coordinates into hidden inputs
+            document.getElementById('reg-lat').value = position.coords.latitude;
+            document.getElementById('reg-lng').value = position.coords.longitude;
+            
+            btn.innerText = "Location Set! ✅";
+           // status.innerText = "Continue";
+            btn.style.background = "#2ecc71"; // Turn green
+        }, (error) => {
+            status.innerText = "Error: Please enable location permissions.";
+            btn.innerText = "Try Again";
+        });
+    }
+}
+</script>
+</body>
+</html>

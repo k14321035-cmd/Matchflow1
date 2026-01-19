@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - MatchFlow</title>
+    <link rel="stylesheet" href="/styleP.css">
+    <style>
+        .section-divider { margin: 30px 0 15px; font-weight: bold; color: #ff69b4; border-bottom: 2px solid #fff5f8; padding-bottom: 5px; display: block; }
+        .grid-q { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .q-item { display: flex; flex-direction: column; }
+        .q-item label { font-size: 0.85rem; margin-bottom: 5px; color: #666; }
+        select, input[type="text"], textarea { 
+            padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit;
+        }
+        .chip-group { display: flex; gap: 8px; margin-top: 5px; }
+        .mini-chip { 
+            padding: 5px 12px; border-radius: 15px; border: 1px solid #eee; 
+            cursor: pointer; font-size: 0.8rem; background: white;
+        }
+        .mini-chip.active { background: #ff69b4; color: white; border-color: #ff69b4; }
+        .mini-chip input { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="brand">MatchFlow</div>
+            <a href="/" class="nav-item">← Back to Matches</a>
+        </nav>
+
+        <div class="setup-box">
+            <h1>Update Your Profile 💫</h1>
+            <p>Refresh your vibe and unlock new connections ✨</p>
+             <button type="button" onclick="getLocation()" class="btn-location">Update My Location</button>
+            <form action="/edit-profile" method="POST">
+                <span class="section-divider">Basics</span>
+                <label for="bio">Your Bio</label>
+                <textarea id="bio" name="bio" placeholder="Tell us about your vibe..."><%= user.bio %></textarea>
+
+                <label for="interests" style="margin-top: 15px; display: block;">Your Interests</label>
+                <input type="text" id="interests" name="interests" value="<%= user.interests.join(', ') %>" placeholder="coding, hiking, sushi..." required>
+                
+                <span class="section-divider">Your Magnetism (15 Points)</span>
+                
+                <div class="grid-q">
+                    <div class="q-item">
+                        <label>Daily Rhythm</label>
+                        <select name="rhythm">
+                            <option value="morning" <%= user.rhythm === 'morning' ? 'selected' : '' %>>🌅 Early Bird</option>
+                            <option value="night" <%= user.rhythm === 'night' ? 'selected' : '' %>>🌙 Night Owl</option>
+                        </select>
+                    </div>
+                    <div class="q-item">
+                        <label>Style</label>
+                        <select name="planning">
+                            <option value="planner" <%= user.planning === 'planner' ? 'selected' : '' %>>📅 Planner</option>
+                            <option value="flow" <%= user.planning === 'flow' ? 'selected' : '' %>>🌊 Flow</option>
+                        </select>
+                    </div>
+                    <div class="q-item">
+                        <label>Social Battery</label>
+                        <select name="social">
+                            <option value="butterfly" <%= user.social === 'butterfly' ? 'selected' : '' %>>🦋 Butterfly</option>
+                            <option value="solo" <%= user.social === 'solo' ? 'selected' : '' %>>🧘 Solo</option>
+                        </select>
+                    </div>
+                    <div class="q-item">
+                        <label>Tech Preference</label>
+                        <select name="phone">
+                            <option value="iphone" <%= user.phone === 'iphone' ? 'selected' : '' %>>🍎 iPhone</option>
+                            <option value="samsung" <%= user.phone === 'samsung' ? 'selected' : '' %>>🔹 Samsung</option>
+                        </select>
+                    </div>
+                    <div class="q-item">
+                        <label>Future Kids?</label>
+                        <select name="kids">
+                            <option value="yes" <%= user.kids === 'yes' ? 'selected' : '' %>>Yes</option>
+                            <option value="no" <%= user.kids === 'no' ? 'selected' : '' %>>No</option>
+                            <option value="maybe" <%= user.kids === 'maybe' ? 'selected' : '' %>>Maybe</option>
+                        </select>
+                    </div>
+                    <div class="q-item">
+                        <label>Love Language</label>
+                        <select name="loveLanguage">
+                            <option value="touch" <%= user.loveLanguage === 'touch' ? 'selected' : '' %>>Touch</option>
+                            <option value="words" <%= user.loveLanguage === 'words' ? 'selected' : '' %>>Words</option>
+                            <option value="time" <%= user.loveLanguage === 'time' ? 'selected' : '' %>>Time</option>
+                            <option value="service" <%= user.loveLanguage === 'service' ? 'selected' : '' %>>Service</option>
+                            <option value="gifts" <%= user.loveLanguage === 'gifts' ? 'selected' : '' %>>Gifts</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="q-item" style="margin-bottom: 15px;">
+                    <label>Unpopular Opinion</label>
+                    <input type="text" name="opinion" value="<%= user.opinion %>">
+                </div>
+
+                <div class="q-item" style="margin-bottom: 25px;">
+                    <label>Unique Niche Hobby</label>
+                    <input type="text" name="niche" value="<%= user.niche %>">
+                </div>
+
+                <button type="submit" class="btn-primary">Update My Vibe 💖</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Interest tag clicking logic (optional helper)
+        document.querySelectorAll('.tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const input = document.getElementById('interests');
+                const val = this.innerText;
+                if(!input.value.includes(val)) {
+                    input.value = input.value ? input.value + ", " + val : val;
+                }
+            });
+        });
+    </script>
+    
+
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const coords = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            
+            // Send to server
+            await fetch('/update-location', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(coords)
+            });
+            alert("Location updated!");
+        });
+    }
+}
+</script>
+</body>
+</html>

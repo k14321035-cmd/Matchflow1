@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vibe Check 💫 - MatchFlow</title>
+    <link rel="stylesheet" href="/stylere.css">
+    <style>
+        :root { --primary: #ff69b4; --iphone-silver: #a2aaad; --samsung-blue: #034ea2; }
+        body { background-color: #fff5f8; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .container { max-width: 600px; margin: 40px auto; padding: 20px; }
+        .section-box { margin-bottom: 30px; padding: 30px; background: #fff; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #ffe4ef; }
+        .section-title { color: var(--primary); font-size: 1.3rem; font-weight: 700; margin-bottom: 25px; display: block; }
+        .q-row { margin-bottom: 25px; }
+        .q-label { font-weight: 600; display: block; margin-bottom: 12px; color: #333; }
+        .options-flex { display: flex; gap: 12px; flex-wrap: wrap; }
+        
+        .chip { border: 2px solid #f0f0f0; padding: 12px 22px; border-radius: 50px; cursor: pointer; background: white; transition: all 0.2s ease; font-size: 15px; font-weight: 500; }
+        .chip input { display: none; }
+        .chip:hover { border-color: var(--primary); background: #fff9fb; }
+        .chip.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
+
+        /* Tech specific colors */
+        .chip.selected[data-val="iphone"] { background: var(--iphone-silver); border-color: var(--iphone-silver); }
+        .chip.selected[data-val="samsung"] { background: var(--samsung-blue); border-color: var(--samsung-blue); }
+
+        select, input[type="text"] { width: 100%; padding: 14px; border-radius: 15px; border: 2px solid #f0f0f0; margin-top: 5px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        select:focus, input:focus { border-color: var(--primary); }
+        .btn-primary { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3); transition: 0.3s; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 105, 180, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-header" style="text-align: center; margin-bottom: 40px;">
+            <h1 style="color: #333; font-size: 2rem;">Build Your Magnetism 🧲</h1>
+            <p style="color: #777;">Answer these 15 questions to find your perfect balance.</p>
+        </div>
+
+        <form action="/register1" method="POST">
+            
+            <div class="section-box">
+                <span class="section-title">Step 1: Your Daily Rhythm ⏰</span>
+                
+                <div class="q-row">
+                    <span class="q-label">1. Are you an Early Bird or a Night Owl?</span>
+                    <div class="options-flex">
+                        <label class="chip"><input type="radio" name="rhythm" value="morning" required>🌅 Early Bird</label>
+                        <label class="chip"><input type="radio" name="rhythm" value="night">🌙 Night Owl</label>
+                    </div>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">2. Planning or Spontaneity?</span>
+                    <div class="options-flex">
+                        <label class="chip"><input type="radio" name="planning" value="planner" required>📅 I need a plan</label>
+                        <label class="chip"><input type="radio" name="planning" value="flow">🌊 Go with the flow</label>
+                    </div>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">3. Social Battery?</span>
+                    <div class="options-flex">
+                        <label class="chip"><input type="radio" name="social" value="butterfly" required>🦋 Social Butterfly</label>
+                        <label class="chip"><input type="radio" name="social" value="solo">🧘 Solo Searcher</label>
+                    </div>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">4. Your ideal weekend vibe?</span>
+                    <div class="options-flex">
+                        <label class="chip"><input type="radio" name="weekend" value="active" required>⛰️ Adventure/Active</label>
+                        <label class="chip"><input type="radio" name="weekend" value="chill">🍕 Movies/Chill</label>
+                    </div>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">5. Your Height?</span>
+                    <select name="height" required>
+                        <option value="short">Petite / Short</option>
+                        <option value="average" selected>Average</option>
+                        <option value="tall">Tall</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-title">Step 2: How You Love ❤️</span>
+                
+                <div class="q-row">
+                    <span class="q-label">6. Primary Love Language?</span>
+                    <select name="loveLanguage" required>
+                        <option value="touch">Physical Touch</option>
+                        <option value="words">Words of Affirmation</option>
+                        <option value="time">Quality Time</option>
+                        <option value="service">Acts of Service</option>
+                        <option value="gifts">Gifts</option>
+                    </select>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">7. Big groups or deep 1-on-1s?</span>
+                    <div class="options-flex">
+                        <label class="chip"><input type="radio" name="depth" value="group" required>🍻 Party Vibes</label>
+                        <label class="chip"><input type="radio" name="depth" value="deep">☕ Deep Conversations</label>
+                    </div>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">8. Lesson from past relationships?</span>
+                    <input type="text" name="lesson" placeholder="e.g., Communication is key" required>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">9. How do you show you're into someone?</span>
+                    <input type="text" name="showingLove" placeholder="e.g., I cook for them" required>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">10. Do you want kids someday?</span>
+                    <select name="kids" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                        <option value="maybe">Maybe / Open to it</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-title">Step 3: Your Unique Mind 🧠</span>
+
+                <div class="q-row">
+                    <span class="q-label">11. Your Interests (comma separated)</span>
+                    <input type="text" name="interests" placeholder="e.g. Coding, Coffee, Hiking, Anime" required>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">12. A niche hobby you're obsessed with?</span>
+                    <input type="text" name="niche" placeholder="e.g., Urban foraging" required>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">13. One value you won't compromise on?</span>
+                    <input type="text" name="value" placeholder="e.g., Loyalty" required>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">14. What's an energy drainer for you?</span>
+                    <input type="text" name="drainer" placeholder="e.g., Small talk" required>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-label">15. iPhone or Samsung? 📱</span>
+                    <div class="options-flex">
+                        <label class="chip" data-val="iphone">
+                            <input type="radio" name="phone" value="iphone" required>🍎 iPhone
+                        </label>
+                        <label class="chip" data-val="samsung">
+                            <input type="radio" name="phone" value="samsung">🔹 Samsung
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-bottom: 80px;">
+                Find My Magnet Match 💕
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const name = this.querySelector('input').name;
+                document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                    input.parentElement.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

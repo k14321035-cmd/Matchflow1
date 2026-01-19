@@ -1,0 +1,52 @@
+/* Chat Container Styles */
+#chat-window {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.msg {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+    word-wrap: break-word;
+}
+
+/* Your messages (Right side - Blue) */
+.my-msg {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+/* Their messages (Left side - Gray) */
+.their-msg {
+    align-self: flex-start;
+    background-color: #e9e9eb;
+    color: #333;
+    border-bottom-left-radius: 2px;
+}
+
+.msg strong {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 3px;
+    opacity: 0.8;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+#messageInput {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 20px;
+}

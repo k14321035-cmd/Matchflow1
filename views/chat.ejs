@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with <%= target.name %></title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        /* Romantic pink theme - only colors changed */
+        body { 
+            background-color: #fff5f7; /* soft romantic pink background */
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        
+        .chat-container {
+            max-width: 600px;
+            margin: 20px auto;
+            height: 85vh;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.18); /* soft pink shadow */
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493); /* hot pink gradient */
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header .back-btn { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 20px; 
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff69b4, #db7093); /* pink gradient avatar */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        #chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            background-color: #fffaf5; /* very light pink subtle bg */
+        }
+
+        .msg {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 15px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .my-msg {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #ff69b4, #ff1493); /* your messages in pink gradient */
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .their-msg {
+            align-self: flex-start;
+            background-color: #ffe4e9; /* soft pink for received messages */
+            color: #4a2c3b;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chat-footer {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #ffe4e9; /* light pink border */
+            display: flex;
+            gap: 10px;
+        }
+
+        #messageInput {
+            flex: 1;
+            border: 1px solid #ffe4e9;
+            padding: 12px 18px;
+            border-radius: 25px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        #messageInput:focus { 
+            border-color: #ff69b4; /* pink focus ring */
+        }
+
+        .send-btn {
+            background: linear-gradient(90deg, #ff69b4, #ff1493); /* pink send button */
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .send-btn:hover { 
+            background: linear-gradient(90deg, #ff1493, #ff69b4); /* reversed gradient on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <a href="/messages" class="back-btn">←</a>
+        <div class="avatar"><%= target.name.charAt(0) %></div>
+        <div>
+            <div style="font-weight: bold;"><%= target.name %></div>
+           <!-- <div style="font-size: 12px; opacity: 0.8;">ONLINE</div> -->
+        </div>
+    </div>
+
+    <div id="chat-window">
+        <% history.forEach(msg => { %>
+            <div class="msg <%= msg.senderId == me._id ? 'my-msg' : 'their-msg' %>">
+                <%= msg.text %>
+            </div>
+        <% }) %>
+    </div>
+
+    <div class="chat-footer">
+        <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off">
+        <button class="send-btn" id="sendBtn">Send</button>
+    </div>
+</div>
+
+<script>
+    const socket = io();
+    const myId = "<%= me._id %>";
+    const targetId = "<%= target._id %>";
+    const roomId = "<%= [me._id, target._id].sort().join('-') %>"; 
+
+    // 1. Join the room immediately
+    socket.emit('join-room', roomId);
+
+    const chatWindow = document.getElementById('chat-window');
+    const input = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // 2. Helper function to scroll to bottom
+    const scrollToBottom = () => {
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    };
+
+    // Initial scroll on page load
+    scrollToBottom();
+
+    // 3. SINGLE Listener for receiving messages
+    socket.on('receive-message', (data) => {
+        const msgDiv = document.createElement('div');
+        
+        // Use the exact classes from your CSS (my-msg / their-msg)
+        const isMe = data.senderId === myId;
+        msgDiv.className = `msg ${isMe ? 'my-msg' : 'their-msg'}`;
+        
+        msgDiv.textContent = data.text;
+        chatWindow.appendChild(msgDiv);
+        
+        scrollToBottom();
+    });
+
+    // 4. Send Message Function
+    function sendMessage() {
+        const text = input.value.trim();
+        if (text === "") return;
+
+        socket.emit('send-chat-message', {
+            roomId: roomId,
+            senderId: myId,
+            receiverId: targetId,
+            message: text,
+            senderName: "<%= me.name %>" // Added for notifications
+        });
+
+        input.value = '';
+        input.focus(); // Keep the keyboard active
+    }
+
+    // 5. Event Listeners
+    sendBtn.addEventListener('click', sendMessage);
+
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+</body>
+</html>

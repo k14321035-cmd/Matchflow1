@@ -1,0 +1,225 @@
+/* style.css - Attractive & Romantic Matches Page */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #fff5f7 0%, #ffeef3 50%, #fad9e6 100%);
+    color: #9c115d;
+    min-height: 100vh;
+    padding-bottom: 60px;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(255, 255, 255, 0.92);
+   
+    padding: 16px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px hsla(330, 70%, 45%, 0.71);
+    border-bottom: 1px solid rgba(255, 182, 193, 0.3);
+}
+
+.brand {
+    font-size: 1.8rem;
+    font-weight: 800;
+   
+    
+    letter-spacing: -1px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-right span {
+    color: #5c3a4f;
+    font-weight: 500;
+}
+
+.logout-link,
+.nav-item {
+    color: #c71585;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.logout-link:hover,
+.nav-item:hover {
+    background: rgba(199, 21, 133, 0.1);
+    color: #db7093;
+}
+
+/* Main Content */
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.my-profile {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.my-profile h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #c71585;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #ff69b4, #ff1493, #db7093);
+    
+}
+
+.interest-tags {
+    background: rgba(255, 182, 193, 0.35);
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: #6b3f5a;
+    font-weight: 500;
+}
+
+/* Matches Section */
+h2 {
+    text-align: center;
+    font-size: 2.1rem;
+    color: #c71585;
+    margin: 40px 0 12px;
+    font-weight: 700;
+}
+
+.subtitle {
+    text-align: center;
+    color: #7a5b6d;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+/* Match Cards Grid */
+.match-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+    margin: 0 auto;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 182, 193, 0.4);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(255, 105, 180, 0.25);
+}
+
+.score-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+    border: 4px solid white;
+}
+
+.card h3 {
+    font-size: 1.55rem;
+    color: #4a2c3b;
+    margin-bottom: 12px;
+    margin-right: 90px; /* space for badge */
+}
+
+.bio {
+    color: #6b3f5a;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    font-size: 0.98rem;
+}
+
+.interests-list {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(255, 182, 193, 0.6);
+}
+
+.interests-list small {
+    color: #8b5f7a;
+    font-size: 0.88rem;
+}
+
+/* No matches state */
+.no-matches {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(255, 245, 247, 0.6);
+    border-radius: 16px;
+    color: #7a5b6d;
+    font-size: 1.1rem;
+    border: 2px dashed #ffb6c1;
+}
+
+/* Admin link */
+a[href="/admin"] {
+    display: inline-block;
+    margin: 40px auto 0;
+    text-align: center;
+    color: #c71585;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid #ff69b4;
+    border-radius: 12px;
+}
+
+a[href="/admin"]:hover {
+    background: #ff69b4;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 5%;
+    }
+    
+    .nav-right {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .match-grid {
+        grid-template-columns: 1fr;
+    }
+}

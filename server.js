@@ -129,7 +129,7 @@ function getMagnetData(me, target) {
         reasons.push("You share the same vision for family 🏠");
     }
     if (me.loveLanguage === target.loveLanguage) {
-        score += 15;
+        score += 25;
         reasons.push("You speak the same love language ❤️");
     }
 
@@ -264,7 +264,7 @@ let potentialMatches = await User.find(searchCriteria);
                 matchReason: magnet.reason 
             };
         })
-        .filter(u => u.score >= 20) // Keep your minimum compatibility filter
+        .filter(u => u.score >= 40) // Keep your minimum compatibility filter
         .sort((a, b) => b.score - a.score);
 
         // 8. Render the page with the calculation results
@@ -528,3 +528,4 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => console.log(`MatchFlow live at port ${PORT}`));
+

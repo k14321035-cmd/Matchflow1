@@ -281,7 +281,7 @@ let potentialMatches = await User.find(searchCriteria);
                 matchReason: magnet.reason 
             };
         })
-        .filter(u => u.score >= 20) // Keep your minimum compatibility filter
+        .filter(u => u.score >= 60) // Keep your minimum compatibility filter
         .sort((a, b) => b.score - a.score);
 
         // 8. Render the page with the calculation results
@@ -525,6 +525,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => console.log(`MatchFlow live at port ${PORT}`));
+
 
 
 

@@ -171,13 +171,16 @@ function getMagnetData(me, target) {
 }
 app.post('/unmatch/:id', async (req, res) => {
     if (!req.session.userId) return res.status(401).send("Login required");
+    console.log(`Unmatch request for: ${req.params.id} from user: ${req.session.userId}`);
 
     try {
         await User.findByIdAndUpdate(req.session.userId, {
-            $addToSet: { hiddenMatches: req.params.id } // Adds ID only if it's not already there
+            $addToSet: { hiddenMatches: req.params.id }
         });
-        res.redirect('/'); // Refresh to show updated list
+        console.log("Unmatch successful, redirecting...");
+        res.redirect('/'); 
     } catch (err) {
+        console.error("Unmatch error:", err);
         res.status(500).send("Error removing match");
     }
 });
@@ -528,5 +531,6 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => console.log(`MatchFlow live at port ${PORT}`));
+
 
 

@@ -2,37 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <title>Chat with <%= target.name %></title>
     <link rel="stylesheet" href="/style.css">
     <script src="/socket.io/socket.io.js"></script>
     <style>
-        /* Romantic pink theme - only colors changed */
+        /* Romantic pink theme */
         body { 
-            background-color: #fff5f7; /* soft romantic pink background */
+            background-color: #fff5f7; 
             margin: 0; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            /* Prevent body scroll, let chat container handle scrolling */
+            height: 100vh;
+            overflow: hidden; 
         }
         
         .chat-container {
             max-width: 600px;
+            /* Use dvh (dynamic viewport height) for better mobile support */
+            height: 85vh; 
             margin: 20px auto;
-            height: 85vh;
             background: #fff;
             display: flex;
             flex-direction: column;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.18); /* soft pink shadow */
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.18);
             overflow: hidden;
+            position: relative; /* Needed for absolute/sticky children */
         }
 
         .chat-header {
             padding: 15px 20px;
-            background: linear-gradient(135deg, #ff69b4, #ff1493); /* hot pink gradient */
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
             color: white;
             display: flex;
             align-items: center;
             gap: 15px;
+            
+            /* --- THIS LOCKS THE NAME TO THE TOP --- */
+            position: sticky;
+            top: 0;
+            z-index: 100; /* Ensure it stays above messages */
+            flex-shrink: 0; /* Prevent header from shrinking when keyboard opens */
+            /* -------------------------------------- */
         }
 
         .chat-header .back-btn { 
@@ -44,7 +56,7 @@
         .avatar {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #ff69b4, #db7093); /* pink gradient avatar */
+            background: linear-gradient(135deg, #ff69b4, #db7093);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -62,7 +74,8 @@
             flex-direction: column;
             gap: 12px;
             background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-            background-color: #fffaf5; /* very light pink subtle bg */
+            background-color: #fffaf5;
+            scroll-behavior: smooth;
         }
 
         .msg {
@@ -72,20 +85,21 @@
             font-size: 15px;
             position: relative;
             animation: fadeIn 0.3s ease;
+            word-wrap: break-word; /* Prevents long words breaking layout */
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .my-msg {
             align-self: flex-end;
-            background: linear-gradient(135deg, #ff69b4, #ff1493); /* your messages in pink gradient */
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
             color: white;
             border-bottom-right-radius: 2px;
         }
 
         .their-msg {
             align-self: flex-start;
-            background-color: #ffe4e9; /* soft pink for received messages */
+            background-color: #ffe4e9;
             color: #4a2c3b;
             border-bottom-left-radius: 2px;
         }
@@ -93,9 +107,11 @@
         .chat-footer {
             padding: 15px;
             background: white;
-            border-top: 1px solid #ffe4e9; /* light pink border */
+            border-top: 1px solid #ffe4e9;
             display: flex;
             gap: 10px;
+            /* Ensure footer stays at bottom */
+            flex-shrink: 0; 
         }
 
         #messageInput {
@@ -108,11 +124,11 @@
         }
 
         #messageInput:focus { 
-            border-color: #ff69b4; /* pink focus ring */
+            border-color: #ff69b4; 
         }
 
         .send-btn {
-            background: linear-gradient(90deg, #ff69b4, #ff1493); /* pink send button */
+            background: linear-gradient(90deg, #ff69b4, #ff1493);
             color: white;
             border: none;
             padding: 0 20px;
@@ -123,7 +139,23 @@
         }
 
         .send-btn:hover { 
-            background: linear-gradient(90deg, #ff1493, #ff69b4); /* reversed gradient on hover */
+            background: linear-gradient(90deg, #ff1493, #ff69b4); 
+        }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        /* This makes the chat look like a native app on phones */
+        @media (max-width: 768px) {
+            body {
+                background-color: #fff; /* Blend with chat */
+            }
+            .chat-container {
+                margin: 0;
+                width: 100%;
+                height: 100dvh; /* Dynamic Viewport Height handles mobile url bars better */
+                border-radius: 0;
+                max-width: none;
+                box-shadow: none;
+            }
         }
     </style>
 </head>
@@ -135,7 +167,6 @@
         <div class="avatar"><%= target.name.charAt(0) %></div>
         <div>
             <div style="font-weight: bold;"><%= target.name %></div>
-           <!-- <div style="font-size: 12px; opacity: 0.8;">ONLINE</div> -->
         </div>
     </div>
 
@@ -178,7 +209,6 @@
     socket.on('receive-message', (data) => {
         const msgDiv = document.createElement('div');
         
-        // Use the exact classes from your CSS (my-msg / their-msg)
         const isMe = data.senderId === myId;
         msgDiv.className = `msg ${isMe ? 'my-msg' : 'their-msg'}`;
         
@@ -198,11 +228,14 @@
             senderId: myId,
             receiverId: targetId,
             message: text,
-            senderName: "<%= me.name %>" // Added for notifications
+            senderName: "<%= me.name %>" 
         });
 
         input.value = '';
-        input.focus(); // Keep the keyboard active
+        input.focus(); 
+        
+        // Small delay to ensure keyboard ensures view is correct
+        setTimeout(scrollToBottom, 100);
     }
 
     // 5. Event Listeners
@@ -212,6 +245,11 @@
         if (e.key === 'Enter') {
             sendMessage();
         }
+    });
+
+    // Fix for mobile keyboard: Scroll to bottom when input is focused
+    input.addEventListener('focus', () => {
+        setTimeout(scrollToBottom, 300);
     });
 </script>
 </body>

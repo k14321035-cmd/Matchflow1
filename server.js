@@ -174,16 +174,17 @@ app.post('/unmatch/:id', async (req, res) => {
     console.log(`Unmatch request for: ${req.params.id} from user: ${req.session.userId}`);
 
     try {
+        const targetId = new mongoose.Types.ObjectId(req.params.id);
         await User.findByIdAndUpdate(req.session.userId, {
-            $addToSet: { hiddenMatches: req.params.id }
+            $addToSet: { hiddenMatches: targetId }
         });
-        console.log("Unmatch successful, redirecting...");
+        console.log(`Unmatch successful for ${targetId}, redirecting...`);
         res.redirect('/'); 
     } catch (err) {
         console.error("Unmatch error:", err);
         res.status(500).send("Error removing match");
     }
-});
+});;
 // 
 //5. MAIN USER ROUTES
 app.get('/', async (req, res) => {
@@ -531,6 +532,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => console.log(`MatchFlow live at port ${PORT}`));
+
 
 
 

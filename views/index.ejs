@@ -128,8 +128,7 @@
                     <% matches.forEach(match => { %>
                         <div class="match-card">
                             <form action="/unmatch/<%= match._id %>" method="POST" style="position: absolute; right: 10px; top: 10px; z-index: 101;" onsubmit="return confirm('Remove this match?');">
-        <button type="submit" class="remove-btn" title="Remove Match">✕</button>
-        <button type="submit" class="remove-btn" title="Remove Match">✕</button>
+                            <button type="submit" class="remove-btn" title="Remove Match">✕</button>
     </form>
                             <div class="score-pill"><%= match.score %>% Match</div>
                             <h3 style="margin: 5px 0;"><%= match.name %></h3>
@@ -189,5 +188,6 @@
 </body>
 
 </html>
+
 
 

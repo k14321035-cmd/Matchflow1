@@ -24,7 +24,7 @@ mongoose.connect(mongoURI).then(() => {
 }).catch(err => console.error("Could not connect to MongoDB", err));
 
 // 2. MODELS - Updated with 15 Personality Fields
-const User = mongoose.model('User', {
+const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     gender: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -34,23 +34,30 @@ const User = mongoose.model('User', {
     interests: { type: [String], default: [] },
     hiddenMatches: { type: [mongoose.Schema.Types.ObjectId], default: [] },
     skippedMatches: { type: [{ userId: mongoose.Schema.Types.ObjectId, skippedAt: Date }], default: [] },
+    location: {
+        type: { type: String, default: 'Point' },
+        coordinates: { type: [Number], default: [0, 0] }
+    },
     // The 15 Data Points
-    rhythm: String,        // morning/night
-    planning: String,      // planner/flow
-    social: String,        // butterfly/solo
-    weekend: String,       // active/chill
-    height: String,        // short/average/tall
-    loveLanguage: String,  // touch/words/time/service/gifts
-    depth: String,         // group/deep
+    rhythm: String,
+    planning: String,
+    social: String,
+    weekend: String,
+    height: String,
+    loveLanguage: String,
+    depth: String,
     lesson: String,        
     showingLove: String,
-    kids: String,          // yes/no/maybe
+    kids: String,
     niche: String,
     opinion: String,
     value: String,
     drainer: String,
-    phone: String // Will store 'iphone' or 'samsung'
+    phone: String
 });
+
+userSchema.index({ location: '2dsphere' });
+const User = mongoose.model('User', userSchema);
 
 const Message = mongoose.model('Message', {
     senderId: String,
@@ -129,7 +136,7 @@ function getMagnetData(me, target) {
         reasons.push("You share the same vision for family 🏠");
     }
     if (me.loveLanguage === target.loveLanguage) {
-        score += 25;
+        score += 15;
         reasons.push("You speak the same love language ❤️");
     }
 
@@ -184,7 +191,7 @@ app.post('/unmatch/:id', async (req, res) => {
         console.error("Unmatch error:", err);
         res.status(500).send("Error removing match");
     }
-});;
+});
 // 
 //5. MAIN USER ROUTES
 app.get('/', async (req, res) => {
@@ -206,7 +213,10 @@ app.get('/', async (req, res) => {
        const hasLocation = me.location && me.location.coordinates && me.location.coordinates.length === 2;
 
 const searchCriteria = {
-    _id: { $ne: me._id },
+    _id: { 
+        $ne: me._id,
+        $nin: me.hiddenMatches || [] 
+    },
     role: { $ne: 'admin' },
     gender: targetGender,
     rhythm: { $exists: true }
@@ -226,12 +236,15 @@ if (hasLocation && me.location.coordinates[0] !== 0) {
 }
 
 let potentialMatches = await User.find(searchCriteria);
-        // 4. Identify who is currently "skipped"
-        // Ensure you use 'skippedMatches' consistently in your Schema
+        // 4. Identify who is currently "skipped" or "hidden"
         const skippedIds = (me.skippedMatches || []).map(s => s.userId.toString());
+        const hiddenIds = (me.hiddenMatches || []).map(id => id.toString());
         
-        // 5. Filter for people NOT skipped
-        let availableMatches = potentialMatches.filter(u => !skippedIds.includes(u._id.toString()));
+        // 5. Filter for people NOT skipped and NOT hidden (Double safety)
+        let availableMatches = potentialMatches.filter(u => 
+            !skippedIds.includes(u._id.toString()) && 
+            !hiddenIds.includes(u._id.toString())
+        );
 
         let timeLeft = 0; // Initialize for the loading bar
 
@@ -268,7 +281,7 @@ let potentialMatches = await User.find(searchCriteria);
                 matchReason: magnet.reason 
             };
         })
-        .filter(u => u.score >= 50) // Keep your minimum compatibility filter
+        .filter(u => u.score >= 20) // Keep your minimum compatibility filter
         .sort((a, b) => b.score - a.score);
 
         // 8. Render the page with the calculation results
@@ -284,26 +297,6 @@ let potentialMatches = await User.find(searchCriteria);
     }
 });
 
-app.post('/unmatch/:id', async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
-
-    try {
-        // Use 'skippedMatches' with the userId and current timestamp
-        await User.findByIdAndUpdate(req.session.userId, {
-            $addToSet: { 
-                skippedMatches: { 
-                    userId: req.params.id, 
-                    skippedAt: new Date() 
-                } 
-            }
-        });
-
-        res.redirect('/'); 
-    } catch (err) {
-        console.error("Unmatch error:", err);
-        res.status(500).send("Could not remove match.");
-    }
-});
 // 6. PROFILE UPDATES
 app.get('/register1', async (req, res) => {
     if (!req.session.userId) return res.redirect('/register');

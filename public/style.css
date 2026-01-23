@@ -230,6 +230,8 @@ h1 {
     color: #888;
     font-size: 12px;
     transition: 0.2s;
+    position: relative;
+    z-index: 100;
 }
 .remove-btn:hover {
     background: #ff4757;
@@ -257,3 +259,4 @@ h1 {
     text-align: center;
     padding: 50px 20px;
 }
+

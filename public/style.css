@@ -1,6 +1,6 @@
 /* style.css - Romantic Dashboard (Fixed & Cleaned) */
 
-* {
+{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -49,6 +49,8 @@ body {
 .nav-links {
     display: flex;
     gap: 28px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .nav-item {
@@ -193,8 +195,14 @@ h1 {
 @media (max-width: 768px) {
     .navbar {
         padding: 16px 5%;
-        flex-wrap: wrap;
-        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 10px;
     }
     
     .nav-links {
